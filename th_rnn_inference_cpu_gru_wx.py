@@ -31,7 +31,7 @@ def bench():
 
     f = build_model()
 
-    theano.printing.pydotprint(f, outfile='gru_inference.png', var_with_name_simple=True)
+    # theano.printing.pydotprint(f, outfile='gru_inference.png', var_with_name_simple=True)
     # warmup
     f(xinput)
 
