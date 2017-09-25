@@ -130,7 +130,7 @@ class GRU_Inference(gof.Op):
 
     def c_cleanup_code_struct(self, node, name):
         ccode = """
-        printf("c_clean_code_struct\\n");
+        // printf("c_clean_code_struct\\n");
         if (A) {
             mkl_free (A);
             A = NULL;

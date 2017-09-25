@@ -7,14 +7,13 @@ import numpy as np
 from mkl_gru_seq_wx import GRU_Inference
 
 seq_length = 10
-batch_size = 64
+# batch_size = 64
 input_size = 150
 hidden_size = 1024
 
 nbatch = 100
-nsamples = nbatch * batch_size
 
-def build_model():
+def build_model(batch_size=64):
     x = T.ftensor3('inp')
     wx = theano.shared(np.random.rand(3 * hidden_size, input_size).astype(np.float32))
     wh = theano.shared(np.random.rand(3 * hidden_size, hidden_size).astype(np.float32))
@@ -26,10 +25,10 @@ def build_model():
     return model
 
 
-def bench():
+def bench(batch_size=64):
     xinput = np.random.rand(seq_length, input_size, batch_size).astype(np.float32)
 
-    f = build_model()
+    f = build_model(batch_size)
 
     # theano.printing.pydotprint(f, outfile='gru_inference.png', var_with_name_simple=True)
     # warmup
@@ -40,7 +39,8 @@ def bench():
         f(xinput)
     toc = time.time()
 
-    print "Forward:"
+    nsamples = nbatch * batch_size
+    print "Forward: %s " % batch_size
     print "--- %i samples in %s seconds (%f samples/s, %.7f s/sample) ---" % (nsamples, toc - tic, nsamples / (toc - tic), (toc - tic) / nsamples)
 
 
